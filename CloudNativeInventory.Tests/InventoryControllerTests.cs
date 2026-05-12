@@ -48,7 +48,7 @@ public class InventoryControllerTests
         using var context = new InventoryDbContext(options);
 
         var mockConfig = new Mock<IConfiguration>();
-        mockConfig.Setup(c => c["ExternalServices:VendorApiKey"])
+        mockConfig.Setup(c => c["VendorApiKey"])
                   .Returns("LOCAL_DEV_SECRET_12345_DO_NOT_DEPLOY");
 
         var controller = new InventoryController(context, mockConfig.Object);
