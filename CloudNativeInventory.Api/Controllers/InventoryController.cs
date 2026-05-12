@@ -28,7 +28,7 @@ public class InventoryController : ControllerBase
     [HttpGet("system/verify-integration")]
     public IActionResult VerifyExternalIntegration()
     {
-        var apiKey = _configuration["ExternalServices:VendorApiKey"];
+        var apiKey = _configuration["VendorApiKey"];
 
         if (string.IsNullOrEmpty(apiKey) || apiKey == "LOCAL_DEV_SECRET_12345_DO_NOT_DEPLOY")
         {
