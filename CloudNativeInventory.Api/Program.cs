@@ -1,7 +1,8 @@
 using CloudNativeInventory.Api.Data;
 using CloudNativeInventory.Api.Models;
 using Microsoft.EntityFrameworkCore;
-// using Azure.Identity; // TODO (Del 4): Krävs för Key Vault
+using Microsoft.Extensions.Configuration;
+using Azure.Identity; // TODO (Del 4): Krävs för Key Vault
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,15 +11,17 @@ builder.Services.AddOpenApi(); // .NET 9 OpenAPI
 
 // TODO (Del 4 i "Tips och förslag"): Konfigurera Azure Key Vault
 // Använd Managed Identity för att hämta hemligheter i produktion.
-// if (builder.Environment.IsProduction())
-// {
-//     var keyVaultUrl = new Uri(builder.Configuration["KeyVaultUrl"]!);
-//     builder.Configuration.AddAzureKeyVault(keyVaultUrl, new DefaultAzureCredential());
-// }
+if (!builder.Environment.IsDevelopment())
+{
+    var keyVaultName = "rolf-inventory-kv"; // unique name for my key vault
+    var kvUri = new Uri($"https://{keyVaultName}.vault.azure.net/"); // Full URI to the Key Vault
+
+    builder.Configuration.AddAzureKeyVault(kvUri, new DefaultAzureCredential()); //DefaultAzureCredential uses the Managed Identity we configured in Azure to authenticate.
+}
 
 // Vi använder InMemory-databas lokalt
 builder.Services.AddDbContext<InventoryDbContext>(options =>
-    options.UseInMemoryDatabase("InventoryDb"));
+  options.UseInMemoryDatabase("InventoryDb"));
 
 var app = builder.Build();
 
