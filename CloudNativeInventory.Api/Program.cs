@@ -13,10 +13,11 @@ builder.Services.AddOpenApi(); // .NET 9 OpenAPI
 // Använd Managed Identity för att hämta hemligheter i produktion.
 if (!builder.Environment.IsDevelopment())
 {
-    var keyVaultName = "rolf-inventory-kv"; // unique name for my key vault
-    var kvUri = new Uri($"https://{keyVaultName}.vault.azure.net/"); // Full URI to the Key Vault
-
-    builder.Configuration.AddAzureKeyVault(kvUri, new DefaultAzureCredential()); //DefaultAzureCredential uses the Managed Identity we configured in Azure to authenticate.
+    var kvUrl = builder.Configuration["KeyVaultUrl"];
+    if (!string.IsNullOrEmpty(kvUrl))
+    {
+        builder.Configuration.AddAzureKeyVault(new Uri(kvUrl), new DefaultAzureCredential());
+    }
 }
 
 // Vi använder InMemory-databas lokalt

@@ -48,8 +48,8 @@ public class InventoryControllerTests
         var options = CreateNewContextOptions();
         using var context = new InventoryDbContext(options);
 
-        var mockConfig = new Mock<IConfiguration>();        
-        mockConfig.Setup(c => c["VendorApiKey"]).Returns((string)null!);
+        var mockConfig = new Mock<IConfiguration>();
+        mockConfig.Setup(c => c["ExternalServices:VendorApiKey"]).Returns((string)null!);
 
         var controller = new InventoryController(context, mockConfig.Object);
 
