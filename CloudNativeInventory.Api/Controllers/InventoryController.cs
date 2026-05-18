@@ -30,9 +30,9 @@ public class InventoryController : ControllerBase
     {
         var apiKey = _configuration["VendorApiKey"];
 
-        if (string.IsNullOrEmpty(apiKey) || apiKey == "LOCAL_DEV_SECRET_12345_DO_NOT_DEPLOY")
+        if (string.IsNullOrEmpty(apiKey))
         {
-            return StatusCode(500, new { Status = "Unsecured", Message = "Körs med lokal (eller saknad) hemlighet! extra text för test" });
+            return StatusCode(500, new { Status = "Unsecured", Message = "Körs med lokal (eller saknad) hemlighet!" });
         }
 
         return Ok(new { Status = "Secured", Message = "Hemlighet laddades framgångsrikt via säker konfiguration." });

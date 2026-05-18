@@ -25,6 +25,7 @@ public class InventoryControllerTests
         // Arrange
         var options = CreateNewContextOptions();
         using var context = new InventoryDbContext(options);
+
         context.Products.Add(new Product { Id = 1, Name = "Test Item", Price = 100, StockQuantity = 5 });
         await context.SaveChangesAsync();
 
@@ -41,15 +42,14 @@ public class InventoryControllerTests
     }
 
     [Fact]
-    public void VerifyIntegration_Returns500_WhenSecretIsLocalDefault()
+    public void VerifyIntegration_Returns500_WhenSecretIsMissing()
     {
         // Arrange
         var options = CreateNewContextOptions();
         using var context = new InventoryDbContext(options);
 
-        var mockConfig = new Mock<IConfiguration>();
-        mockConfig.Setup(c => c["VendorApiKey"])
-                  .Returns("LOCAL_DEV_SECRET_12345_DO_NOT_DEPLOY");
+        var mockConfig = new Mock<IConfiguration>();        
+        mockConfig.Setup(c => c["VendorApiKey"]).Returns((string)null!);
 
         var controller = new InventoryController(context, mockConfig.Object);
 
