@@ -21,9 +21,11 @@ Decisions & Motivations:
 ============================================================================================
 
 Inventory Resource
-Method      Endpoint                                 Description                                 Auth
-GET         /api/inventory                           Get all products from the database          Public
-GET         /api/inventory/system/verify-integration  Verifies external Key Vault integration    Public
+
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| GET | `/api/inventory` | Get all products from the database | Public |
+| GET | `/api/inventory/system/verify-integration` | Verifies external Key Vault integration | Public |
 
 ============================================================================================
 
